@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+    <script src="vendor/bootstrap/bootstrap.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://apexcharts.com/samples/assets/stock-prices.js"></script>
+
+
+</head>
+<body>
+    <div class="wrap">
+        
+        <div id="chart">
+        </div>                
+    
+    </div>
+
+    <script type="text/javascript">
+
+var options = {
+        series: [
+          {
+            data: [10, 20, 15, 30, 35, 30, 45, 59, 30, 35, 25, 29, 15]
+          }
+        ],
+        chart: {
+          type: "area",
+          height: 200,
+          background: "#19191E",
+          dropShadow: {
+            enabled: true,
+            color: "#000"
+          },
+          zoom: {
+            enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        markers: {
+          colors: ["#FFFFFF"]
+        },
+        stroke: {
+          curve: "smooth",
+          width: 3,
+          fill: {
+            type: "gradient",
+            color: "#0085FF",
+            gradient: {
+              type: "horizontal",
+              colorStops: [
+                [
+                  {
+                    offset: 0,
+                    color: "#0085FF",
+                    opacity: 1
+                  },
+                  {
+                    offset: 33,
+                    color: "#FF2E92",
+                    opacity: 1
+                  },
+                  {
+                    offset: 80,
+                    color: "#FFAC2F",
+                    opacity: 1
+                  },
+                  {
+                    offset: 99,
+                    color: "#FFFFFF",
+                    opacity: 1
+                  }
+                ]
+              ]
+            }
+          }
+        },
+        fill: {
+          type: "gradient",
+          gradient: {
+            shadeIntensity: 1,
+            type: "vertical",
+            colorStops: [
+              [
+                {
+                  offset: 0,
+                  color: "#F48116",
+                  opacity: 1.0
+                },
+                {
+                  offset: 70,
+                  color: "#6510F8",
+                  opacity: 0.2
+                },
+                {
+                  offset: 97,
+                  color: "#6510F8",
+                  opacity: 0.0
+                }
+              ]
+            ]
+          }
+        },
+        xaxis: {
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false
+          },
+          labels: {
+            style: {
+              colors: "#aaa"
+            }
+          }
+        },
+        yaxis: {
+          labels: {
+            show: false
+          }
+        },
+        grid: {
+          borderColor: "#222226"
+        },
+        legend: {
+          horizontalAlign: "left"
+        },
+        theme: {
+          mode: "dark"
+        }
+      };
+      
+      var chart = new ApexCharts(document.querySelector("#chart"), options);
+      chart.render();
+    </script>
+</body>
+</html>

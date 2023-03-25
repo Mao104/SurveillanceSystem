@@ -3,6 +3,10 @@ const app = Vue.createApp({
       return {
         taiwanCountry: [],
         CountryName: '',
+        options5:'',
+        options8:'',
+        options7:'',
+        options6:'',
       }
   },
   methods: {
@@ -45,6 +49,333 @@ const app = Vue.createApp({
         
     },
 
+    Chart:function(){
+      var options = {
+        series: [
+          {
+            data: [10, 20, 15, 30, 35, 30, 45, 59, 30, 35, 25, 29, 15]
+          }
+        ],
+        chart: {
+          type: "area",
+          height: 200,
+          background: "#19191E",
+          dropShadow: {
+            enabled: true,
+            color: "#000"
+          },
+          zoom: {
+            enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        markers: {
+          colors: ["#FFFFFF"]
+        },
+        stroke: {
+          curve: "smooth",
+          width: 3,
+          fill: {
+            type: "gradient",
+            color: "#0085FF",
+            gradient: {
+              type: "horizontal",
+              colorStops: [
+                [
+                  {
+                    offset: 0,
+                    color: "#0085FF",
+                    opacity: 1
+                  },
+                  {
+                    offset: 33,
+                    color: "#FF2E92",
+                    opacity: 1
+                  },
+                  {
+                    offset: 80,
+                    color: "#FFAC2F",
+                    opacity: 1
+                  },
+                  {
+                    offset: 99,
+                    color: "#FFFFFF",
+                    opacity: 1
+                  }
+                ]
+              ]
+            }
+          }
+        },
+        fill: {
+          type: "gradient",
+          gradient: {
+            shadeIntensity: 1,
+            type: "vertical",
+            colorStops: [
+              [
+                {
+                  offset: 0,
+                  color: "#F48116",
+                  opacity: 1.0
+                },
+                {
+                  offset: 70,
+                  color: "#6510F8",
+                  opacity: 0.2
+                },
+                {
+                  offset: 97,
+                  color: "#6510F8",
+                  opacity: 0.0
+                }
+              ]
+            ]
+          }
+        },
+        xaxis: {
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false
+          },
+          labels: {
+            style: {
+              colors: "#aaa"
+            }
+          }
+        },
+        yaxis: {
+          labels: {
+            show: false
+          }
+        },
+        grid: {
+          borderColor: "#222226"
+        },
+        legend: {
+          horizontalAlign: "left"
+        },
+        theme: {
+          mode: "dark"
+        }
+      };
+      
+      var chart = new ApexCharts(document.querySelector("#chart"), options);
+      chart.render();
+      
+    },
+
+    Chart8:function(){
+      var _this = this;
+      
+      _this.options8 = {
+        series: [{
+          name: 'software',
+          data: [11, 44, 31, 46, 40, 55, 92, 32, 38, 22, 40, 30]
+        }],
+        chart: {
+          height: 60,
+          width:250,
+          type: 'area',
+          toolbar: {
+            show: false,
+          },
+          sparkline: {
+            enabled: true
+          }
+        },
+        grid: {
+          show: false,
+          padding: {
+            left: 0,
+            right: 0
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: false,
+          curve: 'smooth'
+        },
+        fill: {
+          colors: ['#F44336']
+        },
+        xaxis: {
+          type: 'numeric',
+          lines: {
+            show: false,
+          },
+          axisBorder: {
+            show: false,
+          },
+          labels: {
+            show: false,
+          },
+        },
+        yaxis: [{
+          y: 0,
+          offsetX: 0,
+          offsetY: 0,
+          labels: {
+            show: false,
+          },
+          padding: {
+            left: 0,
+            right: 0
+          },
+        }],
+        tooltip: {
+          x: {
+            show: false,
+            format: 'dd/MM/yy HH:mm'
+          },
+        },
+      };
+
+    },
+
+    Chart7:function(){
+      var _this = this;
+      
+      _this.options7 = {
+        series: [{
+          name: 'hardware',
+          data: [21, 18, 13, 42, 55, 18, 32, 34, 51, 92, 33, 41]
+        }],
+        chart: {
+          height: 60,
+          width:250,
+          type: 'area',
+          toolbar: {
+            show: false,
+          },
+          sparkline: {
+            enabled: true
+          }
+        },
+        grid: {
+          show: false,
+          padding: {
+            left: 0,
+            right: 0
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: false,
+          curve: 'smooth'
+        },
+        fill: {
+          colors: ['#E91E63']
+        },
+        xaxis: {
+          type: 'numeric',
+          lines: {
+            show: false,
+          },
+          axisBorder: {
+            show: false,
+          },
+          labels: {
+            show: false,
+          },
+        },
+        yaxis: [{
+          y: 0,
+          offsetX: 0,
+          offsetY: 0,
+          labels: {
+            show: false,
+          },
+          padding: {
+            left: 0,
+            right: 0
+          },
+        }],
+        tooltip: {
+          x: {
+            show: false,
+            format: 'dd/MM/yy HH:mm'
+          },
+        },
+      };
+    },
+
+    Chart6:function(){
+      var _this = this;
+      
+      _this.options6 = {
+        series: [{
+          name: 'hardware',
+          data: [21, 18, 13, 42, 55, 18, 32, 34, 51, 92, 33, 41]
+        }],
+        chart: {
+          height: 60,
+          width:250,
+          type: 'area',
+          toolbar: {
+            show: false,
+          },
+          sparkline: {
+            enabled: true
+          }
+        },
+        grid: {
+          show: false,
+          padding: {
+            left: 0,
+            right: 0
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: false,
+          curve: 'smooth'
+        },
+        fill: {
+          colors: ['#9C27B0']
+        },
+        xaxis: {
+          type: 'numeric',
+          lines: {
+            show: false,
+          },
+          axisBorder: {
+            show: false,
+          },
+          labels: {
+            show: false,
+          },
+        },
+        yaxis: [{
+          y: 0,
+          offsetX: 0,
+          offsetY: 0,
+          labels: {
+            show: false,
+          },
+          padding: {
+            left: 0,
+            right: 0
+          },
+        }],
+        tooltip: {
+          x: {
+            show: false,
+            format: 'dd/MM/yy HH:mm'
+          },
+        },
+      };
+    },
   },
   watch: {
 
@@ -54,7 +385,6 @@ const app = Vue.createApp({
       fetch('./wwwroot/js/COUNTY_MOI_1090820.json').then(res => res.json()).then(result => {
         _this.taiwanCountry = result
         this.draw(_this.taiwanCountry)
-
         // document.getElementById('app').onmouseover = function(e){
         //   console.log(this.className);
         // }
@@ -62,8 +392,21 @@ const app = Vue.createApp({
         // $(path).addEventListener('mouseover', function () {
         //   this.className = 'highlight';
         // })
-
     })
+    window.onload = function(){
+              // _this.Chart();
+              _this.Chart8();
+              _this.Chart7();
+              _this.Chart6();
+              var chart8 = new ApexCharts(document.querySelector("#chart8"), _this.options8);
+              chart8.render();
+              var chart7 = new ApexCharts(document.querySelector("#chart7"), _this.options7);
+              chart7.render();
+              var chart6 = new ApexCharts(document.querySelector("#chart6"), _this.options6);
+              chart6.render();
+              // var chart5 = new ApexCharts(document.querySelector("#chart5"), _this.options5);
+              // chart5.render();
+    }
 
   },
 });

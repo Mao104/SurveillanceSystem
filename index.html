@@ -28,6 +28,11 @@
     <script src="https://cdn.jsdelivr.net/npm/d3-transition@3"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3-drag@3"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3-zoom@3"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://apexcharts.com/samples/assets/stock-prices.js"></script>
+
+
 </head>
 <body>
     <div class="wrap">
@@ -37,11 +42,54 @@
             <div></div>
         </div>
         <div id="app">
-            <div style="position: static;">
+            <div class="WebTitle">
                 <h1>The West Indies <span>September 1717</span></h1>
             </div>
-            <div class="profit"></div>
-            <svg width='500' height='500'><!--style='border:1px solid #00000060;'-->
+            <div class="profit">
+                <!-- <div id="chart">
+                </div>-->
+                <div class="row">
+                    <div class="mb-50" style="padding: 0;">
+                        <div class="data-bg box-shadow border-radius-10 height-100-p widget-style2">
+                            <div class="widget-data" style="color:#F44336">
+                                <div class="weight-800 font-15">$60,600</div>
+                                <div class="weight-500 font-15">軟體年營利</div>
+                            </div>
+                            <div class="progress-data">
+                                <div id="chart8"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-50" style="padding: 0;">
+                        <div class="data-bg box-shadow border-radius-10 height-100-p widget-style2">
+                            <div class="widget-data" style="color:#E91E63">
+                                <div class="weight-800 font-15">$40,600</div>
+                                <div class="weight-500 font-15">硬體年營利</div>
+                            </div>
+                            <div class="progress-data">
+                                <div id="chart7"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-50" style="padding: 0;">
+                        <div class="data-bg box-shadow border-radius-10 height-100-p widget-style2">
+                            <div class="widget-data" style="color:#9C27B0">
+                                <div class="weight-800 font-15">$120,600</div>
+                                <div class="weight-500 font-15">服務年營利</div>
+                            </div>
+                            <div class="progress-data">
+                                <div id="chart6"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <svg id="D3JMap" width='500' height='500'><!--style='border:1px solid #00000060;'-->
                 <g class="counties"></g>
                 <path class="county-borders"></path>
             </svg>
@@ -59,6 +107,7 @@
     <script type="text/javascript">
         app.mount('#app');
         const zoom = d3.zoom(); 
+
     </script>
 </body>
 </html>

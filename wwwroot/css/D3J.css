@@ -26,23 +26,57 @@ body {
 }
 
 .right-side, .left-side{
-  width: 100%;
+  width: 40%;
   height: 100%;
 }
 
 #app {
   /* margin: 0 auto; 水平置中 */
   height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
 }
 
+.profit{
+  display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.WebTitle{
+  position: static;
+  margin: 25px 0 25px 0;
+}
+
 /*D3J*/
+.weight-800{
+  font-weight: 800;
+}
+
+.font-15 {
+  font-size: 15px;
+  line-height: 1.4em;
+}
+
+.font-18 {
+  font-size: 18px;
+  line-height: 1.6em;
+}
+
+.font-24 {
+  font-size: 24px;
+  line-height: 1.5em;
+}
+
+.weight-500 {
+  font-weight: 500;
+}
+
 
 .counties {
-  fill:#33474e;
+  fill: #1c4654;
 }
 .counties :hover {
   fill: #7f9ca7;
@@ -54,15 +88,25 @@ body {
   stroke-width: 0.5px;
 }
 
-path {
+#D3JMap > path {
     stroke: white;
-    fill: transparent;
+    /* fill: transparent; */
     transition: 0.5s;
     cursor: pointer;
 }
-path:hover {
-    transform: translate(-5px, -5px);
-    
+
+ path:hover {
+  transform: translate(-5px, -5px);
+
+}
+
+.widget-data{
+  color: #FFF;
+  padding: 5px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .CountryName{
@@ -218,4 +262,16 @@ h1 > span {
       30% 50%;
     opacity: 0;
     }  
+  }
+
+  /*chart*/
+
+  #chart {
+    max-width: 200px;
+    margin: 35px auto;
+  }
+
+  /*data*/
+  .data-bg{
+    background-color: #202020;
   }
