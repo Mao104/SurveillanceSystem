@@ -4,9 +4,13 @@ const app = Vue.createApp({
         taiwanCountry: [],
         CountryName: '',
         options5:'',
-        options8:'',
-        options7:'',
-        options6:'',
+        SoftwareOptions:'',
+        HardwareOptions:'',
+        ServeOptions:'',
+        OptionsCircle:'',
+        LineOptions:'',
+        iteration:11,
+        trigoStrength:3,
       }
   },
   methods: {
@@ -169,16 +173,16 @@ const app = Vue.createApp({
       
     },
 
-    Chart8:function(){
+    SoftwareChart:function(){
       var _this = this;
       
-      _this.options8 = {
+      _this.SoftwareOptions = {
         series: [{
           name: 'software',
           data: [11, 44, 31, 46, 40, 55, 92, 32, 38, 22, 40, 30]
         }],
         chart: {
-          height: 60,
+          height: 40,
           width:250,
           type: 'area',
           toolbar: {
@@ -239,16 +243,16 @@ const app = Vue.createApp({
 
     },
 
-    Chart7:function(){
+    HardwareChart:function(){
       var _this = this;
       
-      _this.options7 = {
+      _this.HardwareOptions = {
         series: [{
           name: 'hardware',
           data: [21, 18, 13, 42, 55, 18, 32, 34, 51, 92, 33, 41]
         }],
         chart: {
-          height: 60,
+          height: 40,
           width:250,
           type: 'area',
           toolbar: {
@@ -308,16 +312,16 @@ const app = Vue.createApp({
       };
     },
 
-    Chart6:function(){
+    ServeChart:function(){
       var _this = this;
       
-      _this.options6 = {
+      _this.ServeOptions = {
         series: [{
           name: 'hardware',
           data: [21, 18, 13, 42, 55, 18, 32, 34, 51, 92, 33, 41]
         }],
         chart: {
-          height: 60,
+          height: 40,
           width:250,
           type: 'area',
           toolbar: {
@@ -376,6 +380,225 @@ const app = Vue.createApp({
         },
       };
     },
+
+    CircleChart:function(){
+      var _this = this;
+      _this.OptionsCircle = {
+        chart: {
+          type: "radialBar",
+          height: 250,
+          offsetX: 0
+        },
+        plotOptions: {
+          radialBar: {
+            inverseOrder: false,
+            hollow: {
+              margin: 5,
+              size: "48%",
+              background: "transparent"
+            },
+            track: {
+              show: true,
+              background: "#40475D",
+              strokeWidth: "10%",
+              opacity: 1,
+              margin: 3 // margin is in pixels
+            }
+          }
+        },
+        series: [71, 63],
+        labels: ["Device 1", "Device 2"],
+        legend: {
+          show: true,
+          position: "left",
+          offsetX: -30,
+          offsetY: -10,
+          formatter: function (val, opts) {
+            return val + " - " + opts.w.globals.series[opts.seriesIndex] + "%";
+          }
+        },
+        fill: {
+          type: "gradient",
+          gradient: {
+            shade: "dark",
+            type: "horizontal",
+            shadeIntensity: 0.5,
+            inverseColors: true,
+            opacityFrom: 1,
+            opacityTo: 1,
+            stops: [0, 100]
+          }
+        }
+      }
+    },
+
+    LineChart:function(){
+      var _this = this;
+      _this.LineOptions = {
+        chart: {
+          height: 350,
+          type: "line",
+          stacked: true,
+          animations: {
+            enabled: true,
+            easing: "linear",
+            dynamicAnimation: {
+              speed: 1000
+            }
+          },
+          dropShadow: {
+            enabled: true,
+            opacity: 0.3,
+            blur: 5,
+            left: -7,
+            top: 22
+          },
+          events: {
+            animationEnd: function (chartCtx) {
+              const newData1 = chartCtx.w.config.series[0].data.slice();
+              newData1.shift();
+              const newData2 = chartCtx.w.config.series[1].data.slice();
+              newData2.shift();
+              window.setTimeout(function () {
+                chartCtx.updateOptions(
+                  {
+                    series: [
+                      {
+                        data: newData1
+                      },
+                      {
+                        data: newData2
+                      }
+                    ],
+                    subtitle: {
+                      text: parseInt(_this.getRandom() * Math.random()).toString()
+                    }
+                  },
+                  false,
+                  false
+                );
+              }, 300);
+            }
+          },
+          toolbar: {
+            show: false
+          },
+          zoom: {
+            enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: "straight",
+          width: 5
+        },
+        grid: {
+          padding: {
+            left: 0,
+            right: 0
+          }
+        },
+        markers: {
+          size: 0,
+          hover: {
+            size: 0
+          }
+        },
+        series: [
+          {
+            name: "Running",
+            data: _this.generateMinuteWiseTimeSeries(
+              new Date("12/12/2016 00:20:00").getTime(),
+              12,
+              {
+                min: 30,
+                max: 110
+              }
+            )
+          },
+          {
+            name: "Waiting",
+            data: _this.generateMinuteWiseTimeSeries(
+              new Date("12/12/2016 00:20:00").getTime(),
+              12,
+              {
+                min: 30,
+                max: 110
+              }
+            )
+          }
+        ],
+        xaxis: {
+          type: "datetime",
+          range: 2700000
+        },
+        title: {
+          text: "Processes",
+          align: "left",
+          style: {
+            fontSize: "12px"
+          }
+        },
+        subtitle: {
+          text: "20",
+          floating: true,
+          align: "right",
+          offsetY: 0,
+          style: {
+            fontSize: "22px"
+          }
+        },
+        legend: {
+          show: true,
+          floating: true,
+          horizontalAlign: "left",
+          onItemClick: {
+            toggleDataSeries: false
+          },
+          position: "top",
+          offsetY: -33,
+          offsetX: 60
+        }
+      };
+      
+    },
+
+    getRangeRandom: function (yrange) {
+      return Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+    },
+
+    generateMinuteWiseTimeSeries:function(baseval, count, yrange) {
+      var _this = this;
+      var i = 0;
+      var series = [];
+      while (i < count) {
+        var x = baseval;
+        var y =
+          (Math.sin(i / _this.trigoStrength) * (i / _this.trigoStrength) +
+            i / _this.trigoStrength +
+            1) *
+          (_this.trigoStrength * 2);
+    
+        series.push([x, y]);
+        baseval += 300000;
+        i++;
+      }
+      return series;
+    },
+
+    getRandom:function() {
+      var _this = this;
+      var i = _this.iteration;
+      return (
+        (Math.sin(i / _this.trigoStrength) * (i / _this.trigoStrength) +
+          i / _this.trigoStrength +
+          1) *
+        (_this.trigoStrength * 2)
+      );
+    },
+
   },
   watch: {
 
@@ -395,15 +618,107 @@ const app = Vue.createApp({
     })
     window.onload = function(){
               // _this.Chart();
-              _this.Chart8();
-              _this.Chart7();
-              _this.Chart6();
-              var chart8 = new ApexCharts(document.querySelector("#chart8"), _this.options8);
-              chart8.render();
-              var chart7 = new ApexCharts(document.querySelector("#chart7"), _this.options7);
-              chart7.render();
-              var chart6 = new ApexCharts(document.querySelector("#chart6"), _this.options6);
-              chart6.render();
+
+              window.Apex = {
+                chart: {
+                  foreColor: "#fff",
+                  toolbar: {
+                    show: false
+                  }
+                },
+                colors: ["#FCCF31", "#17ead9", "#f02fc2"],
+                stroke: {
+                  width: 3
+                },
+                dataLabels: {
+                  enabled: false
+                },
+                grid: {
+                  borderColor: "#40475D"
+                },
+                xaxis: {
+                  axisTicks: {
+                    color: "#333"
+                  },
+                  axisBorder: {
+                    color: "#333"
+                  }
+                },
+                fill: {
+                  type: "gradient",
+                  gradient: {
+                    gradientToColors: ["#F55555", "#6078ea", "#6094ea"]
+                  }
+                },
+                tooltip: {
+                  theme: "dark",
+                  x: {
+                    formatter: function (val) {
+                      return moment(new Date(val)).format("HH:mm:ss");
+                    }
+                  }
+                },
+                yaxis: {
+                  decimalsInFloat: 2,
+                  opposite: true,
+                  labels: {
+                    offsetX: -10
+                  }
+                }
+              };
+
+
+              _this.SoftwareChart();
+              _this.HardwareChart();
+              _this.ServeChart();
+
+              _this.CircleChart();
+              _this.LineChart();
+
+              //上方資訊
+              var SoftwareChart = new ApexCharts(document.querySelector("#SoftwareChart"), _this.SoftwareOptions);
+              SoftwareChart.render();
+
+              var HardwareChart = new ApexCharts(document.querySelector("#HardwareChart"), _this.HardwareOptions);
+              HardwareChart.render();
+
+              var ServeChart = new ApexCharts(document.querySelector("#ServeChart"), _this.ServeOptions);
+              ServeChart.render();
+              //左邊資訊
+              var CircleChart = new ApexCharts(document.querySelector("#circlechart"), _this.OptionsCircle);
+              CircleChart.render();
+              
+              var LineChart = new ApexCharts(document.querySelector("#linechart"), _this.LineOptions);
+              LineChart.render();
+
+              //Random數據
+              window.setInterval(function () {
+                _this.iteration++;
+
+                LineChart.updateSeries([
+                  {
+                    data: [
+                      ...LineChart.w.config.series[0].data,
+                      [LineChart.w.globals.maxX + 300000, _this.getRandom()]
+                    ]
+                  },
+                  {
+                    data: [
+                      ...LineChart.w.config.series[1].data,
+                      [LineChart.w.globals.maxX + 300000, _this.getRandom()]
+                    ]
+                  }
+                ]);
+                
+                CircleChart.updateSeries([
+                  _this.getRangeRandom({ min: 10, max: 100 }),
+                  _this.getRangeRandom({ min: 10, max: 100 })
+                ]);
+              }, 3000);
+
+
+
+
               // var chart5 = new ApexCharts(document.querySelector("#chart5"), _this.options5);
               // chart5.render();
     }

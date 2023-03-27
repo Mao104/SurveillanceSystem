@@ -31,19 +31,29 @@
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://apexcharts.com/samples/assets/stock-prices.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    
 
 
 </head>
 <body>
     <div class="wrap">
         <div class="left-side">
-            <div></div>
-            <div></div>
+            <div>
+                <div class="box radialbox mt-4">
+                        <div id="circlechart"> </div>
+                </div>
+            </div>
+            <div>
+                <div class="box mt-4">
+                    <div id="linechart"> </div>
+                </div>
+            </div>
             <div></div>
         </div>
         <div id="app">
             <div class="WebTitle">
-                <h1>The West Indies <span>September 1717</span></h1>
+                <h1>還未設計 <span>的標題區塊</span></h1>
             </div>
             <div class="profit">
                 <!-- <div id="chart">
@@ -56,7 +66,7 @@
                                 <div class="weight-500 font-15">軟體年營利</div>
                             </div>
                             <div class="progress-data">
-                                <div id="chart8"></div>
+                                <div id="SoftwareChart"></div>
                             </div>
                         </div>
                     </div>
@@ -69,7 +79,7 @@
                                 <div class="weight-500 font-15">硬體年營利</div>
                             </div>
                             <div class="progress-data">
-                                <div id="chart7"></div>
+                                <div id="HardwareChart"></div>
                             </div>
                         </div>
                     </div>
@@ -82,7 +92,7 @@
                                 <div class="weight-500 font-15">服務年營利</div>
                             </div>
                             <div class="progress-data">
-                                <div id="chart6"></div>
+                                <div id="ServeChart"></div>
                             </div>
                         </div>
                     </div>
@@ -107,7 +117,7 @@
     <script type="text/javascript">
         app.mount('#app');
         const zoom = d3.zoom(); 
-
+        console.log('%c 跨殺小(／‵Д′)／~ ╧╧', 'color:red;font-size:20px;');
     </script>
 </body>
 </html>
