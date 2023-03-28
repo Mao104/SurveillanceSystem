@@ -94,6 +94,10 @@ body {
   stroke-width: 0.5px;
 }
 
+#D3JMap{
+  margin-top: 125px;;
+}
+
 #D3JMap > path {
     stroke: white;
     /* fill: transparent; */

@@ -12,135 +12,208 @@
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://apexcharts.com/samples/assets/stock-prices.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 
 
 </head>
 <body>
     <div class="wrap">
         
-        <div id="chart">
-        </div>                
+        <div class="box mt-4">
+            <div id="linechart"> </div>
+        </div>          
     
     </div>
 
     <script type="text/javascript">
+    var trigoStrength=3;
+    var iteration = 11;
 
-var options = {
-        series: [
-          {
-            data: [10, 20, 15, 30, 35, 30, 45, 59, 30, 35, 25, 29, 15]
-          }
-        ],
-        chart: {
-          type: "area",
-          height: 200,
-          background: "#19191E",
-          dropShadow: {
-            enabled: true,
-            color: "#000"
-          },
-          zoom: {
-            enabled: false
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        markers: {
-          colors: ["#FFFFFF"]
-        },
-        stroke: {
-          curve: "smooth",
-          width: 3,
-          fill: {
-            type: "gradient",
-            color: "#0085FF",
-            gradient: {
-              type: "horizontal",
-              colorStops: [
-                [
-                  {
-                    offset: 0,
-                    color: "#0085FF",
-                    opacity: 1
-                  },
-                  {
-                    offset: 33,
-                    color: "#FF2E92",
-                    opacity: 1
-                  },
-                  {
-                    offset: 80,
-                    color: "#FFAC2F",
-                    opacity: 1
-                  },
-                  {
-                    offset: 99,
-                    color: "#FFFFFF",
-                    opacity: 1
-                  }
-                ]
-              ]
-            }
-          }
-        },
-        fill: {
-          type: "gradient",
-          gradient: {
-            shadeIntensity: 1,
-            type: "vertical",
-            colorStops: [
-              [
+    var optionsLine = {
+  chart: {
+    height: 350,
+    type: "line",
+    stacked: true,
+    animations: {
+      enabled: true,
+      easing: "linear",
+      dynamicAnimation: {
+        speed: 1000
+      }
+    },
+    dropShadow: {
+      enabled: true,
+      opacity: 0.3,
+      blur: 5,
+      left: -7,
+      top: 22
+    },
+    events: {
+      animationEnd: function (chartCtx) {
+        const newData1 = chartCtx.w.config.series[0].data.slice();
+        newData1.shift();
+        const newData2 = chartCtx.w.config.series[1].data.slice();
+        newData2.shift();
+        window.setTimeout(function () {
+          chartCtx.updateOptions(
+            {
+              series: [
                 {
-                  offset: 0,
-                  color: "#F48116",
-                  opacity: 1.0
+                  data: newData1
                 },
                 {
-                  offset: 70,
-                  color: "#6510F8",
-                  opacity: 0.2
-                },
-                {
-                  offset: 97,
-                  color: "#6510F8",
-                  opacity: 0.0
+                  data: newData2
                 }
-              ]
-            ]
-          }
-        },
-        xaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          labels: {
-            style: {
-              colors: "#aaa"
-            }
-          }
-        },
-        yaxis: {
-          labels: {
-            show: false
-          }
-        },
-        grid: {
-          borderColor: "#222226"
-        },
-        legend: {
-          horizontalAlign: "left"
-        },
-        theme: {
-          mode: "dark"
+              ],
+              subtitle: {
+                text: parseInt(getRandom() * Math.random()).toString()
+              }
+            },
+            false,
+            false
+          );
+        }, 300);
+      }
+    },
+    toolbar: {
+      show: false
+    },
+    zoom: {
+      enabled: false
+    }
+  },
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    curve: "straight",
+    width: 5
+  },
+  grid: {
+    padding: {
+      left: 0,
+      right: 0
+    }
+  },
+  markers: {
+    size: 0,
+    hover: {
+      size: 0
+    }
+  },
+  series: [
+    {
+      name: "Running",
+      data: generateMinuteWiseTimeSeries(
+        new Date("12/12/2016 00:20:00").getTime(),
+        12,
+        {
+          min: 30,
+          max: 110
         }
-      };
-      
-      var chart = new ApexCharts(document.querySelector("#chart"), options);
-      chart.render();
+      )
+    },
+    {
+      name: "Waiting",
+      data: generateMinuteWiseTimeSeries(
+        new Date("12/12/2016 00:20:00").getTime(),
+        12,
+        {
+          min: 30,
+          max: 110
+        }
+      )
+    }
+  ],
+  xaxis: {
+    type: "datetime",
+    range: 2700000
+  },
+  title: {
+    text: "Processes",
+    align: "left",
+    style: {
+      fontSize: "12px"
+    }
+  },
+  subtitle: {
+    text: "20",
+    floating: true,
+    align: "right",
+    offsetY: 0,
+    style: {
+      fontSize: "22px"
+    }
+  },
+  legend: {
+    show: true,
+    floating: true,
+    horizontalAlign: "left",
+    onItemClick: {
+      toggleDataSeries: false
+    },
+    position: "top",
+    offsetY: -33,
+    offsetX: 60
+  }
+};
+
+
+    function generateMinuteWiseTimeSeries(baseval, count, yrange) {
+      var i = 0;
+      var series = [];
+      while (i < count) {
+        var x = baseval;
+        var y =
+          (Math.sin(i / trigoStrength) * (i / trigoStrength) +
+            i / trigoStrength +
+            1) *
+          (trigoStrength * 2);
+    
+        series.push([x, y]);
+        baseval += 300000;
+        i++;
+      }
+      return series;
+    }
+
+    function getRandom() {
+      var i = iteration;
+      return (
+        (Math.sin(i / trigoStrength) * (i / trigoStrength) +
+          i / trigoStrength +
+          1) *
+        (trigoStrength * 2)
+      );
+    }
+
+
+    var chartLine = new ApexCharts(
+  document.querySelector("#linechart"),
+  optionsLine
+);
+chartLine.render();
+              
+
+              window.setInterval(function () {
+                iteration++;
+
+                chartLine.updateSeries([
+    {
+      data: [
+        ...chartLine.w.config.series[0].data,
+        [chartLine.w.globals.maxX + 300000, getRandom()]
+      ]
+    },
+    {
+      data: [
+        ...chartLine.w.config.series[1].data,
+        [chartLine.w.globals.maxX + 300000, getRandom()]
+      ]
+    }
+  ]);
+                
+              }, 3000);
     </script>
 </body>
 </html>

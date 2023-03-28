@@ -4,13 +4,20 @@ const app = Vue.createApp({
         taiwanCountry: [],
         CountryName: '',
         options5:'',
-        SoftwareOptions:'',
-        HardwareOptions:'',
-        ServeOptions:'',
+        OptionsSoftware:'',
+        OptionsHardware:'',
+        OptionsServe:'',
         OptionsCircle:'',
-        LineOptions:'',
-        iteration:11,
-        trigoStrength:3,
+        OptionsLine:'',
+        OptionsProgress1:'',
+        OptionsProgress2:'',
+        OptionsProgress3:'',
+        OptionsColumn:'',
+        OptionsCandleStick:'',
+        seriesData:[],
+        iteration:11, //設定迭代次數
+        CarCountiteration:120, //設定迭代次數
+        trigoStrength:3,  //三角函數強度
       }
   },
   methods: {
@@ -176,7 +183,7 @@ const app = Vue.createApp({
     SoftwareChart:function(){
       var _this = this;
       
-      _this.SoftwareOptions = {
+      _this.OptionsSoftware = {
         series: [{
           name: 'software',
           data: [11, 44, 31, 46, 40, 55, 92, 32, 38, 22, 40, 30]
@@ -246,7 +253,7 @@ const app = Vue.createApp({
     HardwareChart:function(){
       var _this = this;
       
-      _this.HardwareOptions = {
+      _this.OptionsHardware = {
         series: [{
           name: 'hardware',
           data: [21, 18, 13, 42, 55, 18, 32, 34, 51, 92, 33, 41]
@@ -315,7 +322,7 @@ const app = Vue.createApp({
     ServeChart:function(){
       var _this = this;
       
-      _this.ServeOptions = {
+      _this.OptionsServe = {
         series: [{
           name: 'hardware',
           data: [21, 18, 13, 42, 55, 18, 32, 34, 51, 92, 33, 41]
@@ -407,7 +414,15 @@ const app = Vue.createApp({
           }
         },
         series: [71, 63],
-        labels: ["Device 1", "Device 2"],
+        title: {
+          text: "設備服務占比", //設定主標題(text)
+          align: "right", //設定對齊方式(align)
+          style: {
+            fontSize: "16px", //設定標題樣式(fontSize)
+            fontWeight:  'bold',
+          }
+        },
+        labels: ["軟體設備", "硬體設備"],
         legend: {
           show: true,
           position: "left",
@@ -434,19 +449,19 @@ const app = Vue.createApp({
 
     LineChart:function(){
       var _this = this;
-      _this.LineOptions = {
+      _this.OptionsLine = {
         chart: {
-          height: 350,
-          type: "line",
-          stacked: true,
-          animations: {
+          height: 250, // 設定圖表高度
+          type: "line",  // 設定圖表類型為線圖
+          stacked: true, // 設定堆疊顯示
+          animations: { // 設定動畫
             enabled: true,
             easing: "linear",
             dynamicAnimation: {
               speed: 1000
             }
           },
-          dropShadow: {
+          dropShadow: { // 設定陰影效果
             enabled: true,
             opacity: 0.3,
             blur: 5,
@@ -454,15 +469,15 @@ const app = Vue.createApp({
             top: 22
           },
           events: {
-            animationEnd: function (chartCtx) {
-              const newData1 = chartCtx.w.config.series[0].data.slice();
-              newData1.shift();
-              const newData2 = chartCtx.w.config.series[1].data.slice();
-              newData2.shift();
-              window.setTimeout(function () {
+            animationEnd: function (chartCtx) { // 當動畫結束時觸發
+              const newData1 = chartCtx.w.config.series[0].data.slice(); // 取得第一條線的資料
+              newData1.shift(); // 刪除第一筆資料
+              const newData2 = chartCtx.w.config.series[1].data.slice(); // 取得第二條線的資料
+              newData2.shift(); // 刪除第一筆資料
+              window.setTimeout(function () { // 設定延遲更新圖表
                 chartCtx.updateOptions(
                   {
-                    series: [
+                    series: [ // 更新資料
                       {
                         data: newData1
                       },
@@ -470,7 +485,7 @@ const app = Vue.createApp({
                         data: newData2
                       }
                     ],
-                    subtitle: {
+                    subtitle: { // 更新副標題
                       text: parseInt(_this.getRandom() * Math.random()).toString()
                     }
                   },
@@ -480,36 +495,36 @@ const app = Vue.createApp({
               }, 300);
             }
           },
-          toolbar: {
+          toolbar: { // 設定工具列
             show: false
           },
-          zoom: {
+          zoom: { // 設定縮放
             enabled: false
           }
         },
-        dataLabels: {
+        dataLabels: { // 設定數據標籤
           enabled: false
         },
-        stroke: {
+        stroke: { // 設定線條樣式
           curve: "straight",
           width: 5
         },
-        grid: {
+        grid: {   // 設定網格樣式
           padding: {
             left: 0,
             right: 0
           }
         },
-        markers: {
+        markers: { // 設定標記樣式
           size: 0,
           hover: {
             size: 0
           }
         },
-        series: [
+        series: [ // 設定資料系列
           {
-            name: "Running",
-            data: _this.generateMinuteWiseTimeSeries(
+            name: "入口1",
+            data: _this.generateMinuteWiseTimeSeries( // 產生隨機資料
               new Date("12/12/2016 00:20:00").getTime(),
               12,
               {
@@ -519,7 +534,7 @@ const app = Vue.createApp({
             )
           },
           {
-            name: "Waiting",
+            name: "入口2",
             data: _this.generateMinuteWiseTimeSeries(
               new Date("12/12/2016 00:20:00").getTime(),
               12,
@@ -531,14 +546,15 @@ const app = Vue.createApp({
           }
         ],
         xaxis: {
-          type: "datetime",
-          range: 2700000
+          type: "datetime", // 設定x軸類型(type)為datetime
+          range: 2700000 //設定時間範圍(range)為2700000，單位為毫秒(ms)
         },
         title: {
-          text: "Processes",
-          align: "left",
+          text: "停車場收益", //設定主標題(text)
+          align: "left", //設定對齊方式(align)
           style: {
-            fontSize: "12px"
+            fontSize: "16px", //設定標題樣式(fontSize)
+            fontWeight:  'bold',
           }
         },
         subtitle: {
@@ -565,6 +581,327 @@ const app = Vue.createApp({
       
     },
 
+    ProgressChart1:function(){
+      var _this = this;
+      _this.OptionsProgress1 = {
+        chart: {
+          height: 50,
+          type: "bar",
+          stacked: true,
+          sparkline: {
+            enabled: true
+          }
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true,
+            barHeight: "20%",
+            colors: {
+              backgroundBarColors: ["#40475D"]
+            }
+          }
+        },
+        stroke: {
+          width: 0
+        },
+        series: [
+          {
+            name: "Process 1",
+            data: [44]
+          }
+        ],
+        title: {
+          floating: true,
+          offsetX: -10,
+          offsetY: 5,
+          text: "機車占比"
+        },
+        subtitle: {
+          floating: true,
+          align: "right",
+          offsetY: 0,
+          text: "44%",
+          style: {
+            fontSize: "20px"
+          }
+        },
+        tooltip: {
+          enabled: false
+        },
+        xaxis: {
+          categories: ["Process 1"]
+        },
+        yaxis: {
+          max: 100
+        },
+        fill: {
+          opacity: 1
+        }
+      };
+    },
+
+    ProgressChart2:function(){
+      var _this = this;
+      _this.OptionsProgress2 = {
+        chart: {
+          height: 50,
+          type: "bar",
+          stacked: true,
+          sparkline: {
+            enabled: true
+          }
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true,
+            barHeight: "20%",
+            colors: {
+              backgroundBarColors: ["#40475D"]
+            }
+          }
+        },
+        colors: ["#17ead9"],
+        stroke: {
+          width: 0
+        },
+        series: [
+          {
+            name: "Process 2",
+            data: [80]
+          }
+        ],
+        title: {
+          floating: true,
+          offsetX: -10,
+          offsetY: 5,
+          text: "大型車占比"
+        },
+        subtitle: {
+          floating: true,
+          align: "right",
+          offsetY: 0,
+          text: "80%",
+          style: {
+            fontSize: "20px"
+          }
+        },
+        tooltip: {
+          enabled: false
+        },
+        xaxis: {
+          categories: ["Process 2"]
+        },
+        yaxis: {
+          max: 100
+        },
+        fill: {
+          type: "gradient",
+          gradient: {
+            inverseColors: false,
+            gradientToColors: ["#6078ea"]
+          }
+        }
+      };
+    },
+
+    ProgressChart3:function(){
+      var _this = this;
+      _this.OptionsProgress3 = {
+        chart: {
+          height: 50,
+          type: "bar",
+          stacked: true,
+          sparkline: {
+            enabled: true
+          }
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true,
+            barHeight: "20%",
+            colors: {
+              backgroundBarColors: ["#40475D"]
+            }
+          }
+        },
+        colors: ["#f02fc2"],
+        stroke: {
+          width: 0
+        },
+        series: [
+          {
+            name: "Process 3",
+            data: [74]
+          }
+        ],
+        fill: {
+          type: "gradient",
+          gradient: {
+            gradientToColors: ["#6094ea"]
+          }
+        },
+        title: {
+          floating: true,
+          offsetX: -10,
+          offsetY: 5,
+          text: "小型車占比"
+        },
+        subtitle: {
+          floating: true,
+          align: "right",
+          offsetY: 0,
+          text: "74%",
+          style: {
+            fontSize: "20px"
+          }
+        },
+        tooltip: {
+          enabled: false
+        },
+        xaxis: {
+          categories: ["Process 3"]
+        },
+        yaxis: {
+          max: 100
+        }
+      };
+    },
+
+    ColumnChart:function(){
+      var _this = this;
+      _this.OptionsColumn = {
+        chart: {
+          height: 250,
+          type: "bar",
+          animations: {
+            enabled: false
+          },
+          events: {
+            animationEnd: function (chartCtx) {
+              const newData = chartCtx.w.config.series[0].data.slice();
+              newData.shift();
+              window.setTimeout(function () {
+                chartCtx.updateOptions(
+                  {
+                    series: [
+                      {
+                        data: newData
+                      }
+                    ],
+                    xaxis: {
+                      min: chartCtx.minX,
+                      max: chartCtx.maxX
+                    },
+                    subtitle: {
+                      text:
+                        parseInt(_this.getRangeRandom({ min: 1, max: 20 })).toString() + "%"
+                    }
+                  },
+                  false,
+                  false
+                );
+              }, 300);
+            }
+          },
+          toolbar: {
+            show: false
+          },
+          zoom: {
+            enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: 0
+        },
+        series: [
+          {
+            name: "車輛數",
+            data: _this.generateCarCount(
+              new Date("12/12/2016 00:20:00").getTime(),
+              120,
+              {
+                min: 120,
+                max: 600
+              }
+            )
+          }
+        ],
+        title: {
+          text: "停車場尖峰時刻表",
+          align: "left",
+          style: {
+            fontSize: "16px"
+          }
+        },
+        fill: {
+          type: "gradient",
+          gradient: {
+            shade: "dark",
+            type: "vertical",
+            shadeIntensity: 0.5,
+            inverseColors: false,
+            opacityFrom: 1,
+            opacityTo: 0.8,
+            stops: [0, 100]
+          }
+        },
+        xaxis: {
+          type: "datetime",
+          range: 2700000
+        },
+        legend: {
+          show: true
+        }
+      };
+    },
+
+    CandleStickChart:function(){
+      var _this = this;
+      
+      _this.OptionsCandleStick = {
+        
+        chart: {
+          type: 'candlestick',
+          height: 250
+        },
+        title: {
+          text: '市場概況 > 智慧停車企業',
+          align: "left",
+          style: {
+            fontSize: "16px"
+          }
+        },
+        xaxis: {
+          type: 'datetime'
+        },
+        yaxis: {
+          tooltip: {
+            enabled: true
+          }
+        },
+        series: _this.seriesData
+
+      };
+    },
+
+    generateData:function (baseval, count) {
+      var i = 0;
+      var series = [];
+      while (i < count) {
+        var x = baseval;
+        var y = Math.floor(Math.random() * (30 - 10 + 1)) + 10;
+        var z = Math.floor(Math.random() * (50 - 20 + 1)) + 20;
+        var a = Math.floor(Math.random() * (30 - 10 + 1)) + 10;
+        series.push([x, y, z, a]);
+        baseval += 2000;
+        i++;
+      }
+      return series;
+    },
+
     getRangeRandom: function (yrange) {
       return Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
     },
@@ -588,16 +925,42 @@ const app = Vue.createApp({
       return series;
     },
 
+    generateCarCount:function(baseval, count, yrange) {
+      var _this = this;
+      var i = 0;
+      var series = [];
+      while (i < count) {
+        var x = baseval;
+        var CarCount = (Math.sin(i / _this.trigoStrength) * (i / _this.trigoStrength) + i / _this.trigoStrength + 1) * (_this.trigoStrength * 2);
+        var y = Math.floor(CarCount);
+    
+        series.push([x, y]);
+        baseval += 300000;
+        i++;
+      }
+      return series;
+    },
+
     getRandom:function() {
       var _this = this;
       var i = _this.iteration;
       return (
-        (Math.sin(i / _this.trigoStrength) * (i / _this.trigoStrength) +
+       ( (Math.sin(i / _this.trigoStrength) * (i / _this.trigoStrength) +
           i / _this.trigoStrength +
           1) *
-        (_this.trigoStrength * 2)
+        (_this.trigoStrength * 2) )
       );
     },
+
+    getCarCount:function(){
+      var _this = this;
+      var i = _this.CarCountiteration;
+      var CarCount =  (Math.sin(i / _this.trigoStrength) * (i / _this.trigoStrength) + i / _this.trigoStrength + 1) * (_this.trigoStrength * 2)
+      return (
+       ( Math.floor(CarCount))
+      );
+    },
+
 
   },
   watch: {
@@ -615,112 +978,196 @@ const app = Vue.createApp({
         // $(path).addEventListener('mouseover', function () {
         //   this.className = 'highlight';
         // })
-    })
+    });
     window.onload = function(){
-              // _this.Chart();
+      var chartData = [];
+      _this.seriesData = [{data: chartData}];
+      var lastDate = Date.now();
+      var lastClose = 30;
 
-              window.Apex = {
-                chart: {
-                  foreColor: "#fff",
-                  toolbar: {
-                    show: false
-                  }
-                },
-                colors: ["#FCCF31", "#17ead9", "#f02fc2"],
-                stroke: {
-                  width: 3
-                },
-                dataLabels: {
-                  enabled: false
-                },
-                grid: {
-                  borderColor: "#40475D"
-                },
-                xaxis: {
-                  axisTicks: {
-                    color: "#333"
-                  },
-                  axisBorder: {
-                    color: "#333"
-                  }
-                },
-                fill: {
-                  type: "gradient",
-                  gradient: {
-                    gradientToColors: ["#F55555", "#6078ea", "#6094ea"]
-                  }
-                },
-                tooltip: {
-                  theme: "dark",
-                  x: {
-                    formatter: function (val) {
-                      return moment(new Date(val)).format("HH:mm:ss");
-                    }
-                  }
-                },
-                yaxis: {
-                  decimalsInFloat: 2,
-                  opposite: true,
-                  labels: {
-                    offsetX: -10
+      window.Apex = {
+        chart: {
+          foreColor: "#fff",
+          toolbar: {
+            show: false
+          }
+        },
+        colors: ["#FCCF31", "#17ead9", "#f02fc2"],
+        stroke: {
+          width: 3
+        },
+        dataLabels: {
+          enabled: false
+        },
+        grid: {
+          borderColor: "#40475D"
+        },
+        xaxis: {
+          axisTicks: {
+            color: "#333"
+          },
+          axisBorder: {
+            color: "#333"
+          }
+        },
+        fill: {
+          type: "gradient",
+          gradient: {
+            gradientToColors: ["#F55555", "#6078ea", "#6094ea"]
+          }
+        },
+        tooltip: {
+                theme: "dark",
+                x: {
+                  formatter: function (val) {
+                    return moment(new Date(val)).format("HH:mm:ss");
                   }
                 }
-              };
+              },
+        yaxis: {
+          decimalsInFloat: 2,
+          opposite: true,
+          labels: {
+            offsetX: -10
+          }
+        }
+      };
 
 
-              _this.SoftwareChart();
-              _this.HardwareChart();
-              _this.ServeChart();
+      _this.SoftwareChart();
+      _this.HardwareChart();
+      _this.ServeChart();
 
-              _this.CircleChart();
-              _this.LineChart();
+      _this.CircleChart();
+      _this.LineChart();
+      _this.ProgressChart1();
+      _this.ProgressChart2();
+      _this.ProgressChart3();
 
-              //上方資訊
-              var SoftwareChart = new ApexCharts(document.querySelector("#SoftwareChart"), _this.SoftwareOptions);
-              SoftwareChart.render();
-
-              var HardwareChart = new ApexCharts(document.querySelector("#HardwareChart"), _this.HardwareOptions);
-              HardwareChart.render();
-
-              var ServeChart = new ApexCharts(document.querySelector("#ServeChart"), _this.ServeOptions);
-              ServeChart.render();
-              //左邊資訊
-              var CircleChart = new ApexCharts(document.querySelector("#circlechart"), _this.OptionsCircle);
-              CircleChart.render();
-              
-              var LineChart = new ApexCharts(document.querySelector("#linechart"), _this.LineOptions);
-              LineChart.render();
-
-              //Random數據
-              window.setInterval(function () {
-                _this.iteration++;
-
-                LineChart.updateSeries([
-                  {
-                    data: [
-                      ...LineChart.w.config.series[0].data,
-                      [LineChart.w.globals.maxX + 300000, _this.getRandom()]
-                    ]
-                  },
-                  {
-                    data: [
-                      ...LineChart.w.config.series[1].data,
-                      [LineChart.w.globals.maxX + 300000, _this.getRandom()]
-                    ]
-                  }
-                ]);
-                
-                CircleChart.updateSeries([
-                  _this.getRangeRandom({ min: 10, max: 100 }),
-                  _this.getRangeRandom({ min: 10, max: 100 })
-                ]);
-              }, 3000);
+      _this.ColumnChart();
+      _this.CandleStickChart();
 
 
+      //上方資訊
+      var SoftwareChart = new ApexCharts(document.querySelector("#SoftwareChart"), _this.OptionsSoftware);
+      SoftwareChart.render();
 
+      var HardwareChart = new ApexCharts(document.querySelector("#HardwareChart"), _this.OptionsHardware);
+      HardwareChart.render();
 
-              // var chart5 = new ApexCharts(document.querySelector("#chart5"), _this.options5);
-              // chart5.render();
+      var ServeChart = new ApexCharts(document.querySelector("#ServeChart"), _this.OptionsServe);
+      ServeChart.render();
+      //左側資訊
+      var CircleChart = new ApexCharts(document.querySelector("#circlechart"), _this.OptionsCircle);
+      CircleChart.render();
+      
+      var LineChart = new ApexCharts(document.querySelector("#linechart"), _this.OptionsLine);
+      LineChart.render();
+
+      var ProgressChart1 = new ApexCharts(document.querySelector("#progress1"),_this.OptionsProgress1);
+      ProgressChart1.render();
+
+      var ProgressChart2 = new ApexCharts(document.querySelector("#progress2"),_this.OptionsProgress2);
+      ProgressChart2.render();
+
+      var ProgressChart3 = new ApexCharts(document.querySelector("#progress3"),_this.OptionsProgress3);
+      ProgressChart3.render();
+      //右側資訊
+      var ColumnChart = new ApexCharts(document.querySelector("#columnchart"),_this.OptionsColumn);
+      ColumnChart.render();
+
+      var CandleStickChart = new ApexCharts(document.querySelector("#candleStickchart"), _this.OptionsCandleStick);
+      CandleStickChart.render();
+
+      //Random數據
+      window.setInterval(function () {
+        _this.iteration++;
+        _this.CarCountiteration++;
+        LineChart.updateSeries([
+          {
+            data: [
+              ...LineChart.w.config.series[0].data,
+              [LineChart.w.globals.maxX + 300000, _this.getRandom()]
+            ]
+          },
+          {
+            data: [
+              ...LineChart.w.config.series[1].data,
+              [LineChart.w.globals.maxX + 300000, _this.getRandom()]
+            ]
+          }
+        ]);
+        
+        CircleChart.updateSeries([
+          _this.getRangeRandom({ min: 10, max: 100 }),
+          _this.getRangeRandom({ min: 10, max: 100 })
+        ]);
+
+        var p1Data = _this.getRangeRandom({ min: 10, max: 100 });
+        ProgressChart1.updateOptions({
+          series: [
+            {
+              data: [p1Data]
+            }
+          ],
+          subtitle: {
+            text: p1Data + "%"
+          }
+        });
+      
+        var p2Data = _this.getRangeRandom({ min: 10, max: 100 });
+        ProgressChart2.updateOptions({
+          series: [
+            {
+              data: [p2Data]
+            }
+          ],
+          subtitle: {
+            text: p2Data + "%"
+          }
+        });
+      
+        var p3Data = _this.getRangeRandom({ min: 10, max: 100 });
+        ProgressChart3.updateOptions({
+          series: [
+            {
+              data: [p3Data]
+            }
+          ],
+          subtitle: {
+            text: p3Data + "%"
+          }
+        });
+
+        ColumnChart.updateSeries([
+          {
+            data: [
+              ...ColumnChart.w.config.series[0].data,
+              [ColumnChart.w.globals.maxX + 300000, _this.getCarCount()]
+            ]
+          }
+        ]);
+
+        // 更新股市圖表資料
+        var currentDate = Date.now();
+        var random = Math.random();
+        var open = lastClose;
+        var high = open + Math.max(random, 0.1);
+        var low = open - Math.max(random, 0.1);
+        var close = low + Math.random() * (high - low);
+        chartData.push({
+          x: currentDate,
+          y: [open, high, low, close]
+        });
+        if (chartData.length > 20) {
+          chartData.shift();
+        }
+        lastDate = currentDate;
+        lastClose = close;
+        CandleStickChart.updateSeries([{data: chartData}]);
+
+      }, 3000);
+
     }
 
   },
