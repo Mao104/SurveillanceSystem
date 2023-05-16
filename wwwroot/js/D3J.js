@@ -13,11 +13,12 @@ const app = Vue.createApp({
         OptionsProgress2:'',
         OptionsProgress3:'',
         OptionsColumn:'',
-        OptionsCandleStick:'',
+        OptionsArea:'',
         seriesData:[],
         iteration:11, //設定迭代次數
         CarCountiteration:120, //設定迭代次數
         trigoStrength:3,  //三角函數強度
+        
       }
   },
   methods: {
@@ -550,7 +551,7 @@ const app = Vue.createApp({
           range: 2700000 //設定時間範圍(range)為2700000，單位為毫秒(ms)
         },
         title: {
-          text: "停車場收益", //設定主標題(text)
+          text: "即時收益", //設定主標題(text)
           align: "left", //設定對齊方式(align)
           style: {
             fontSize: "16px", //設定標題樣式(fontSize)
@@ -771,7 +772,7 @@ const app = Vue.createApp({
       var _this = this;
       _this.OptionsColumn = {
         chart: {
-          height: 250,
+          height: 230,
           type: "bar",
           animations: {
             enabled: false
@@ -858,33 +859,178 @@ const app = Vue.createApp({
       };
     },
 
-    CandleStickChart:function(){
+    AreaChart:function(){
       var _this = this;
       
-      _this.OptionsCandleStick = {
-        
+      _this.OptionsArea = {
+        series: [
+          {
+            name: "收益 (K) ",
+            data: [
+              { x: "1月", y: 10 },
+              { x: "2月", y: 20 },
+              { x: "3月", y: 15 },
+              { x: "4月", y: 30 },
+              { x: "5月", y: 35 },
+              { x: "6月", y: 30 },
+              { x: "7月", y: 45 },
+              { x: "8月", y: 79 },
+              { x: "9月", y: 30 },
+              { x: "10月", y: 35 },
+              { x: "11月", y: 25 },
+              { x: "12月", y: 29 }
+            ]
+          }
+        ],
         chart: {
-          type: 'candlestick',
-          height: 250
+          type: "area",
+          height: 200,
+          background: "none",
+          dropShadow: {
+            enabled: true,
+            color: "#000"
+          },
+          zoom: {
+            enabled: false
+          }
         },
-        title: {
-          text: '市場概況 > 智慧停車企業',
-          align: "left",
-          style: {
-            fontSize: "16px"
+        dataLabels: {
+          enabled: false
+        },
+        markers: {
+          colors: ["#FFFFFF"]
+        },
+        stroke: {
+          curve: "smooth",
+          width: 3,
+          fill: {
+            type: "gradient",
+            gradient: {
+              type: "horizontal",
+              colorStops: [
+                [
+                  {
+                    offset: 0,
+                    color: "#0085FF",
+                    opacity: 1
+                  },
+                  {
+                    offset: 33,
+                    color: "#FF2E92",
+                    opacity: 1
+                  },
+                  {
+                    offset: 80,
+                    color: "#FFAC2F",
+                    opacity: 1
+                  },
+                  {
+                    offset: 99,
+                    color: "#FFFFFF",
+                    opacity: 1
+                  }
+                ]
+              ]
+            }
+          }
+        },
+        fill: {
+          type: "gradient",
+          gradient: {
+            shadeIntensity: 1,
+            type: "vertical",
+            colorStops: [
+              [
+                {
+                  offset: 0,
+                  color: "#F48116",
+                  opacity: 1.0
+                },
+                {
+                  offset: 70,
+                  color: "#6510F8",
+                  opacity: 0.2
+                },
+                {
+                  offset: 97,
+                  color: "#6510F8",
+                  opacity: 0.0
+                }
+              ]
+            ]
           }
         },
         xaxis: {
-          type: 'datetime'
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false
+          },
+          labels: {
+            style: {
+              colors: "#aaa"
+            }
+          }
         },
         yaxis: {
           tooltip: {
-            enabled: true
+            enabled: false,
+          },
+          max: 100
+        },
+        title: {
+          text: "月收益", //設定主標題(text)
+          align: "left", //設定對齊方式(align)
+          style: {
+            fontSize: "16px", //設定標題樣式(fontSize)
+            fontWeight:  'bold',
           }
         },
-        series: _this.seriesData
+        grid: {
+          borderColor: "#222226"
+        },
+        legend: {
+          horizontalAlign: "left"
+        },
+        theme: {
+          mode: "dark"
+        },
+        tooltip: {
+          theme: "dark",
+          x: {
+            formatter: (value) => value + "月"
+          }
+        },
 
       };
+    },
+
+    CandlestickChart:function(){
+      var _this = this;
+      _this.OptionsCandlestick = {
+        series: [
+          {
+            data: _this.generateRandomData() // 初始蠟燭資料
+          }
+        ],
+        chart: {
+          type: "candlestick",
+          height: 250 // 設定圖表的類型和高度
+        },
+        title: {
+          text: "Realtime 蠟燭圖",
+          align: 'left'
+        },
+        xaxis: {
+          type: "datetime"// 設定 x 軸為時間類型
+        },
+        yaxis: {
+          tooltip: {
+            enabled: true// 啟用 y 軸的工具提示
+          }
+        },
+      }
     },
 
     generateData:function (baseval, count) {
@@ -960,7 +1106,39 @@ const app = Vue.createApp({
        ( Math.floor(CarCount))
       );
     },
+    //隨機產生K棒資料
+    generateRandomData:function() {
+      const data = []; // 建立一個空陣列用於存放蠟燭資料
+      const now = new Date().getTime(); // 取得目前的時間戳記
 
+      for (let i = 0; i < 10; i++) {
+        const timestamp = now - i * 3000;// 根據索引 i 計算出時間戳記，每次間隔 10 秒
+        const open = Math.random() * 100;// 生成一個隨機的開盤價
+        const close = Math.random() * 100;// 生成一個隨機的最高價，相對於開盤價增加不超過 10 的範圍
+        const high = Math.max(open, close) + Math.random() * 10;// 生成一個隨機的最低價，相對於開盤價減少不超過 10 的範圍
+        const low = Math.min(open, close) - Math.random() * 10;// 生成一個隨機的收盤價，相對於開盤價增加不超過 20 的範圍
+
+        data.push({
+          x: timestamp,
+          y: [
+            open,
+            high,
+            low,
+            close
+          ],
+        });
+      }
+
+      return data;// 回傳生成的蠟燭資料陣列
+    },
+    //更新K棒資料
+    updateData:function(chart) {
+      var _this = this;
+      const series = chart.w.globals.series;// 取得圖表的 series 資料
+      const newData = _this.generateRandomData();// 生成新的隨機蠟燭資料
+      series[0].data = newData; // 將新的資料更新到 series 中的第一個系列
+      chart.updateSeries(series);// 更新圖表的系列資料
+    },
 
   },
   watch: {
@@ -1045,8 +1223,8 @@ const app = Vue.createApp({
       _this.ProgressChart3();
 
       _this.ColumnChart();
-      _this.CandleStickChart();
-
+      _this.AreaChart();
+      _this.CandlestickChart();
 
       //上方資訊
       var SoftwareChart = new ApexCharts(document.querySelector("#SoftwareChart"), _this.OptionsSoftware);
@@ -1076,8 +1254,11 @@ const app = Vue.createApp({
       var ColumnChart = new ApexCharts(document.querySelector("#columnchart"),_this.OptionsColumn);
       ColumnChart.render();
 
-      var CandleStickChart = new ApexCharts(document.querySelector("#candleStickchart"), _this.OptionsCandleStick);
-      CandleStickChart.render();
+      var AreaChart = new ApexCharts(document.querySelector("#areachart"),_this.OptionsArea);
+      AreaChart.render();
+
+      var CandlestickChart = new ApexCharts(document.querySelector("#candlestickchart"),_this.OptionsCandlestick);
+      CandlestickChart.render();
 
       //Random數據
       window.setInterval(function () {
@@ -1147,27 +1328,12 @@ const app = Vue.createApp({
             ]
           }
         ]);
-
-        // 更新股市圖表資料
-        var currentDate = Date.now();
-        var random = Math.random();
-        var open = lastClose;
-        var high = open + Math.max(random, 0.1);
-        var low = open - Math.max(random, 0.1);
-        var close = low + Math.random() * (high - low);
-        chartData.push({
-          x: currentDate,
-          y: [open, high, low, close]
-        });
-        if (chartData.length > 20) {
-          chartData.shift();
-        }
-        lastDate = currentDate;
-        lastClose = close;
-        CandleStickChart.updateSeries([{data: chartData}]);
-
       }, 3000);
 
+      //candlestickchart Realtime
+      setInterval(function() {
+        _this.updateData(CandlestickChart);
+      }, 3000);
     }
 
   },

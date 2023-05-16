@@ -39,7 +39,7 @@
 <body>
     <div class="wrap">
         <div class="left-side">
-            <div class="box radialbox mt-4">
+            <div class="box mt-4">
                 <div id="circlechart"></div>
             </div>
             <div class="box mt-4">
@@ -59,7 +59,7 @@
         </div>
         <div id="app">
             <div class="WebTitle">
-                <h1>還未設計 <span>的標題區塊</span></h1>
+                <h1>Parking Services <span>coin parking</span></h1>
             </div>
             <div class="profit">
                 <!-- <div id="chart">
@@ -113,22 +113,23 @@
                 <input type="text" id="CountryName" class="CountryName" v-model="CountryName" autocomplete="off">
             </div>
         </div>
-        <div class="right-side">
-                <div class="box columnbox mt-4">
-                    <div id="columnchart"></div>
-                </div>
-
-            <div class="box columnbox mt-4">
-                <div id="candleStickchart"></div>
+        <div class="right-side" style="display: flex;flex-direction: column;">
+            <div class="box mt-4">
+                <div id="columnchart"></div>
             </div>
-            <div></div>
+            <div class="box mt-4">
+                <div id="areachart"></div>
+            </div>
+            <div class="box mt-4">
+                <div id="candlestickchart"></div>
+            </div>
         </div>
     </div>
 
     <script type="text/javascript">
         app.mount('#app');
         const zoom = d3.zoom(); 
-        console.log('%c 跨殺小(／‵Д′)／~ ╧╧', 'color:red;font-size:20px;');
+        console.log('%c 不要亂看(／‵Д′)／~ ╧╧', 'color:red;font-size:20px;');
     </script>
 </body>
 </html>
